@@ -1,0 +1,79 @@
+/*
+Project: Startups
+*/
+
+/* 1. Examine DataTable
+ 	Database Schema--column names */
+PRAGMA table_info(table_name);
+
+/* 2. Total number of companies */
+select count(distinct name)
+from startups;
+
+/* 3. Total valuation of companies */
+select sum(valuation)/1000000 as ValuationMillion
+from startups;
+
+/* 4. Total Raised for new companies */
+select max(raised)/1000000 as RaiseMillion
+from startups;
+
+/* 5. Total Raised during seed stage */
+select max(raised) as MaxSeedRaised
+from startups
+where stage = 'Seed';
+
+/* 6. Oldest Company */
+select name, min(founded) as founded
+from startups
+;
+
+/* 7. Average Valuation */
+select avg(valuation)/1000000 as ValuationMillion
+from startups
+;
+
+/* 8. Valuation by Sector */
+select category, avg(valuation) as Valuation
+from startups
+group by category
+;
+
+/* 9. Rounded Valuation by Sector */
+select category, round(avg(valuation),2) as Valuation
+from startups
+group by category
+;
+
+/* 10. Ordered Valuation by Sector */
+select category, round(avg(valuation),2) as Valuation
+from startups
+group by category
+order by Valuation desc 
+;
+
+/* 11. N Companies by Sector */
+select category, count(name)
+from startups
+group by category
+;
+
+/* 12. N Companies by Sector with more than 3 companies */
+select category, count(name) as Ncompanies
+from startups
+group by category
+having Ncompanies > 3
+;
+
+/* 13. Company Size by Location */
+select location, round(avg(employees),0) as AvgSize
+from startups
+group by location
+;
+
+/* 14. Company Size by Location and Size Restriction */
+select location, round(avg(employees),0) as AvgSize
+from startups
+group by location
+having AvgSize > 500
+;
