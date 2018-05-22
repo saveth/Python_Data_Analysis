@@ -1,0 +1,58 @@
+/* 1. Examine the data tables 
+	 2. Examine the primary keys*/
+SELECT * FROM trips;
+
+SELECT * FROM riders;
+
+SELECT * FROM cars;
+
+/* 3. Test cross join of riders and cars */
+select * from riders
+cross join cars
+;
+
+/* 4. Create a trip log */
+select * from trips
+left join riders on
+	trips.rider_id = riders.id
+;
+
+/* 5. Vehicles on trips */
+select * from trips
+join cars on
+	trips.car_id = cars.id
+;
+
+/* 6. Riders from multiple tables */
+select * from riders
+union
+select * from riders2
+;
+
+/* 7. Average cost of a trip */
+select avg(cost) as Cost
+from trips
+;
+
+/* 8. Users with less than 500 usage */
+with previous_query as(
+  select * from riders
+	union
+	select * from riders2)
+select *
+from previous_query
+where total_trips < 500
+;
+
+/* 9. Active vehicles */
+select *
+from cars
+where status = 'active'
+;
+
+/* 10. Top two Completed Trips */
+select *
+from cars
+order by trips_completed desc
+limit 2
+;
